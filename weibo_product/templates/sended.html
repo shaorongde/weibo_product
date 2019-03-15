@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block customstyle %}
+     <script src="http://gallery.echartsjs.com/dep/echarts/map/js/world.js"></script>
+{% endblock %}
+{% load staticfiles %}
+{% block content %}
+    <div class="row" style="border: solid 1px #39445c;">
+        <div id="main" style="width: 80%;height:500px; margin: auto;"></div>
+        <script type="text/javascript">
+            var myChart = echarts.init(document.getElementById('main'));
+            myChart.setOption({
+                title: {
+                    text: '微博转发量比例'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    bottom: 10,
+                    left: 'center',
+                    data: ['凤凰网', '中国青年报', '新闻周刊', '头条新闻']
+                },
+                series: [{
+                    type: 'pie',
+                    name: '微博转发比例',
+                    radius : '65%',
+                    center: ['50%', '50%'],
+                    selectedMode: 'single',
+                    data: []
+                }]
+            });
+            myChart.showLoading();
+            $.post("{% url 'send' %}", {"type": 1}, function(result){
+                 myChart.hideLoading();    //隐藏加载动画
+                 myChart.setOption({        //加载数据图表
+                                series: [{
+                                    // 根据名字对应到相应的系列
+                                    name: '微博转发比例',
+                                    data: result.persent
+                                }]
+                            });
+            });
+        </script>
+    </div>
+
+{% endblock %}
+
+{% block customjs %}
+    <script>
+
+    </script>
+
+{% endblock %}
+
+

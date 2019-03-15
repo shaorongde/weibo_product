@@ -1,0 +1,14 @@
+[[source]]
+url = "https://mirrors.aliyun.com/pypi/simple"
+verify_ssl = true
+name = "ali"
+
+[packages]
+requests = "*"
+django = "*"
+
+[dev-packages]
+rope = "*"
+
+[requires]
+python_version = "3.6"
